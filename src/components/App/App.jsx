@@ -19,6 +19,24 @@ class App extends Component {
         filter: '',
     };
 
+    componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacrs = JSON.parse(contacts);
+
+    if (parsedContacrs) {
+      this.setState({ contacts: parsedContacrs });
+    }
+    };
+
+  componentDidUpdate(prevState) {
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (nextContacts !== prevContacts) {
+      localStorage.setItem('contacts', JSON.stringify(nextContacts));
+    }
+    };
+
     addContact = ({ name, number }) => {
         const normalizedFind = name.toLowerCase();
         const findName = this.state.contacts.find(contact => contact.name.toLowerCase() === normalizedFind);
